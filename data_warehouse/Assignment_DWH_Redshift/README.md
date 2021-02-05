@@ -19,17 +19,24 @@ The task is to build an ETL pipeline that extracts their data from S3, stages th
 ### AWS
 - Create an `IAM` User with AdminRights 
 - Create redshift cluster to connect to
-- make sure you store those credentials in dwh.cfg /don't forget gitignore
+- Create a `dwh.cfg` where you store your credentials
+- If you want to do this via infrastructure as code, you can run `Assignment_DWH.ipynb`
 
 ### DATA
 Have a look at the provided data.
-
+![Screenshot 2021-02-05 at 14 30 53](https://user-images.githubusercontent.com/6280553/107052680-db46ca80-67c5-11eb-93d5-bb849979c2bd.png)
+![Screenshot 2021-02-05 at 14 31 40](https://user-images.githubusercontent.com/6280553/107052681-dbdf6100-67c5-11eb-82ba-f8e30ee1c66a.png)
 
 ## Create Table Schemas
+
+![staging_tables](https://user-images.githubusercontent.com/6280553/107052684-dc77f780-67c5-11eb-87c8-c6ae72e4886f.png)
+![Startschema](https://user-images.githubusercontent.com/6280553/107052686-dc77f780-67c5-11eb-9907-a33205460f4a.png)
+
 
 - `sql_queries.py` holds the `CREATE` statements for each of the tables shown above.
 - `create_tables.py` has `DROP` statementes implemented, so that we can reset the database and test our ETL pipeline.
 
-## Build ETL Pipeline
+## ETL Pipeline
+`etl.py`:
 - load data to staging tables on Redshift
 - load staging data to analytics data on Redshift

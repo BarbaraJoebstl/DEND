@@ -56,26 +56,19 @@ Load the data from S3 into a dataframe, to see whats going on.
 
 ### Table Creation
 
-[Data warehouse ](https://github.com/Huachao/azure-content/blob/master/articles/sql-data-warehouse/sql-data-warehouse-develop-table-design.md)
-[Data categories](https://www.journaldev.com/16774/sql-data-types)
-[Constraints](https://www.nuwavesolutions.com/constraints-and-indexes/)
+- [Data warehouse ](https://github.com/Huachao/azure-content/blob/master/articles/sql-data-warehouse/sql-data-warehouse-develop-table-design.md)
+- [Data categories](https://www.journaldev.com/16774/sql-data-types)
+- [Constraints](https://www.nuwavesolutions.com/constraints-and-indexes/)
 
 ### ETL
 
-[Different types of joins](https://www.dofactory.com/sql/join)
-[When to use joins](https://chartio.com/resources/tutorials/sql-joins-explained/)
-[SQL Select distinct](https://www.dofactory.com/sql/select-distinct)
-[Select distinct examples](http://www.mysqltutorial.org/mysql-distinct.aspx)
+- [Different types of joins](https://www.dofactory.com/sql/join)
+- [When to use joins](https://chartio.com/resources/tutorials/sql-joins-explained/)
+- [SQL Select distinct](https://www.dofactory.com/sql/select-distinct)
+- [Select distinct examples](http://www.mysqltutorial.org/mysql-distinct.aspx)
 
 ### Python
 
-[Docstrings](https://www.python.org/dev/peps/pep-0257/)
-[Why PEP8](https://realpython.com/python-pep8/)
-[PEP 8 Styleguide](http://pep8online.com/)
-
-## ETL Pipeline
-
-`etl.py`:
-
-- load data to staging tables on Redshift
-- load staging data to analytics data on Redshift
+- [Docstrings](https://www.python.org/dev/peps/pep-0257/)
+- [Why PEP8](https://realpython.com/python-pep8/)
+- [PEP 8 Styleguide](http://pep8online.com/)

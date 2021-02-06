@@ -68,6 +68,7 @@ Load the data from S3 into a dataframe, to see whats going on.
 [Select distinct examples](http://www.mysqltutorial.org/mysql-distinct.aspx)
 
 ### Data Warehouse
+
 [Data warehouse architecture](https://panoply.io/data-warehouse-guide/data-warehouse-architecture-traditional-vs-cloud/)
 [Redshift](https://www.sisense.com/blog/double-your-redshift-performance-with-the-right-sortkeys-and-distkeys/)
 
@@ -76,4 +77,3 @@ Load the data from S3 into a dataframe, to see whats going on.
 [Docstrings](https://www.python.org/dev/peps/pep-0257/)
 [Why PEP8](https://realpython.com/python-pep8/)
 [PEP 8 Styleguide](http://pep8online.com/)
-

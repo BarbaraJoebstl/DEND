@@ -56,12 +56,12 @@ CREATE TABLE staging_songs(
 
 songplay_table_create = ("""
 CREATE TABLE songplays(
-    songplay_id INT IDENTITY(0,1) PRIMARY KEY, 
-    start_time timestamp,
-    user_id INTEGER,
+    songplay_id INT IDENTITY(0,1) PRIMARY KEY,
+    start_time timestamp NOT NULL,
+    user_id INTEGER NOT NULL,
     level VARCHAR(255),
-    song_id VARCHAR(100),
-    artist_id VARCHAR(100),
+    song_id VARCHAR(100) NOT NULL,
+    artist_id VARCHAR(100) NOT NULL,
     session_id BIGINT,
     location VARCHAR(255),
     user_agent TEXT)
@@ -72,7 +72,7 @@ CREATE TABLE users(
     user_id INTEGER NOT NULL PRIMARY KEY
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    gender VARCHAR(1), 
+    gender VARCHAR(1),
     level VARCHAR(255)
     )
 """)
@@ -112,20 +112,20 @@ CREATE TABLE time(
 # STAGING TABLES
 
 staging_events_copy = ("""
-    copy staging_events 
+    copy staging_events
     from {}
     iam_role {}
     json {};
-""").format(config.get('S3', 'LOG_DATA'), 
-            config.get('IAM_ROLE', 'ARN'), 
+""").format(config.get('S3', 'LOG_DATA'),
+            config.get('IAM_ROLE', 'ARN'),
             config.get('S3', 'LOG_JSONPATH'))
 
 staging_songs_copy = ("""
-    copy staging_events 
+    copy staging_events
         from {}
         iam_role {}
         json 'auto';
-    """).format(config.get('S3', 'SONG_DATA'), 
+    """).format(config.get('S3', 'SONG_DATA'),
                 config.get('IAM_ROLE', 'ARN'))
 
 
@@ -149,7 +149,7 @@ AND e.artist_name = s.name
 AND e.song_length = s.duration
 """)
 
-#users
+# users
 user_table_insert = ("""
 INSERT INTO users(user_id, first_name, last_name, gender, level)
 SELECT DISTINCT(user_id),
@@ -162,7 +162,7 @@ WHERE user_id IS NOT NULL
 AND page = 'NextSong';
 """)
 
-#songs
+# songs
 song_table_insert = ("""
 INSERT INTO songs(song_id, title, artist_id, year, duration)
 SELECT DISTINCT(song_id),
@@ -170,11 +170,11 @@ SELECT DISTINCT(song_id),
        artist_id,
        year,
        duration
-FROM staging_songs 
+FROM staging_songs
 WHERE song_id IS NOT NULL
 """)
 
-#artists
+# artists
 artist_table_insert = ("""
 INSERT INTO artists(artist_id, name, artist_location, artist_latitude, artist_longitude)
 SELECT DISTINCT
@@ -187,7 +187,7 @@ FROM staging_songs
 WHERE artist_is IS NOT NULL
 """)
 
-#time
+# time
 time_table_insert = ("""
 INSERT INTO time(start_time, hour, day, week, year, weekday)
 SELECT  DISTINCT(start_time),
@@ -201,10 +201,13 @@ FROM songplays
 
 # QUERY LISTS
 
-create_table_queries = [staging_events_table_create, staging_songs_table_create, songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+create_table_queries = [staging_events_table_create, staging_songs_table_create,
+                        songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
 
-drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+drop_table_queries = [staging_events_table_drop, staging_songs_table_drop,
+                      songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
 
 copy_table_queries = [staging_events_copy, staging_songs_copy]
 
-insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
+insert_table_queries = [songplay_table_insert, user_table_insert,
+                        song_table_insert, artist_table_insert, time_table_insert]

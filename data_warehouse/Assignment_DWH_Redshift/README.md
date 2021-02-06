@@ -27,9 +27,35 @@ Have a look at the provided data.
 
 ## Create Table Schemas
 
-- `sql_queries.py` holds the `CREATE` statements for each of the tables shown above.
+
 - `create_tables.py` has `DROP` statementes implemented, so that we can reset the database and test our ETL pipeline.
 
+### sql_queries.py
+- There are no constraints applied to the staging tables, as they are a clear copy of the source.
+- All data tpyes are suported by SQL Data Warehouse.
+- SQL data types are divided into categories.
+- The `CREATE` statements specify all columns with appropriate data types and constraints for each table.
+
+
 ## Build ETL Pipeline
+- `INSERT` and `JOIN` statements are done correctly.
 - load data to staging tables on Redshift
 - load staging data to analytics data on Redshift
+
+
+## Further reading
+### Table Creation
+[Data warehouse ](https://github.com/Huachao/azure-content/blob/master/articles/sql-data-warehouse/sql-data-warehouse-develop-table-design.md)
+[Data categories](https://www.journaldev.com/16774/sql-data-types)
+[Constraints](https://www.nuwavesolutions.com/constraints-and-indexes/)
+
+### ETL
+[Different types of joins](https://www.dofactory.com/sql/join)
+[When to use joins](https://chartio.com/resources/tutorials/sql-joins-explained/)
+[SQL Select distinct](https://www.dofactory.com/sql/select-distinct)
+[Select distinct examples](http://www.mysqltutorial.org/mysql-distinct.aspx)
+
+### Python
+[Docstrings](https://www.python.org/dev/peps/pep-0257/)
+[Why PEP8](https://realpython.com/python-pep8/)
+[PEP 8 Styleguide](http://pep8online.com/)

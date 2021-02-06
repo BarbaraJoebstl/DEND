@@ -35,10 +35,9 @@ CREATE TABLE staging_events(
     session_id BIGINT,
     song VARCHAR(255),
     status INTEGER,
-    timestamp VARCHAR(50),
+    timestamp TIMESTAMP,
     user_agent TEXT,
-    user_id INTEGER,
-    PRIMARY KEY (event_id))
+    user_id INTEGER)
 """)
 
 staging_songs_table_create = ("""
@@ -46,19 +45,18 @@ CREATE TABLE staging_songs(
     song_id VARCHAR(100),
     num_songs INTEGER,
     artist_id VARCHAR(100),
-    artist_latitude DOUBLE PRECISION,
-    artist_longitude DOUBLE PRECISION,
+    artist_latitude FLOAT,
+    artist_longitude FLOAT,
     artist_location VARCHAR(255),
     artist_name VARCHAR(255),
     title VARCHAR(255),
-    duration DOUBLE PRECISION,
-    year INTEGER,
-    PRIMARY KEY (song_id))
+    duration FLOAT,
+    year INTEGER)
 """)
 
 songplay_table_create = ("""
 CREATE TABLE songplays(
-    songplay_id INT IDENTITY(0,1),
+    songplay_id INT IDENTITY(0,1) PRIMARY KEY, 
     start_time timestamp,
     user_id INTEGER,
     level VARCHAR(255),
@@ -66,49 +64,48 @@ CREATE TABLE songplays(
     artist_id VARCHAR(100),
     session_id BIGINT,
     location VARCHAR(255),
-    user_agent TEXT,
-    PRIMARY KEY(songplay_id))
+    user_agent TEXT)
 """)
 
 user_table_create = ("""
 CREATE TABLE users(
-    user_id INTEGER,
+    user_id INTEGER NOT NULL PRIMARY KEY
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     gender VARCHAR(1), 
-    level VARCHAR(255),
-    PRIMARY KEY(user_id))
+    level VARCHAR(255)
+    )
 """)
 
 song_table_create = ("""
 CREATE TABLE songs(
-    song_id VARCHAR(100),
+    song_id VARCHAR(100) NOT NULL PRIMARY KEY,
     title VARCHAR(255),
     artist_id VARCHAR(100),
     year INTEGER,
-    duration DOUBLE PRECISION,
-    PRIMARY KEY(song_id))
+    duration DOUBLE PRECISION
+    )
 """)
 
 artist_table_create = ("""
 CREATE TABLE artists(
-    artist_id VARCHAR(100),
+    artist_id VARCHAR(100) NOT NULL PRIMARY KEY,
     name VARCHAR(255),
     artist_location VARCHAR(255),
     artist_latitude DOUBLE PRECISION,
-    artist_longitude DOUBLE PRECISION,
-    PRIMARY KEY(artist_id))
+    artist_longitude DOUBLE PRECISION
+    )
 """)
 
 time_table_create = ("""
 CREATE TABLE time(
-    start_time timestamp,
+    start_time timestamp NOT NULL PRIMARY KEY,
     hour INTEGER,
     day INTEGER,
     week INTEGER,
     year INTEGER,
-    weekday INTEGER,
-    PRIMARY KEY(start_time))
+    weekday INTEGER
+    )
 """)
 
 
@@ -155,23 +152,26 @@ AND e.song_length = s.duration
 #users
 user_table_insert = ("""
 INSERT INTO users(user_id, first_name, last_name, gender, level)
-SELECT user_id,
+SELECT DISTINCT(user_id),
        first_name,
        last_name,
        gender,
        level
 FROM staging_songs
+WHERE user_id IS NOT NULL
+AND page = 'NextSong';
 """)
 
 #songs
 song_table_insert = ("""
 INSERT INTO songs(song_id, title, artist_id, year, duration)
-SELECT song_id,
+SELECT DISTINCT(song_id),
        title,
        artist_id,
        year,
        duration
-FROM staging_songs
+FROM staging_songs 
+WHERE song_id IS NOT NULL
 """)
 
 #artists
@@ -190,7 +190,7 @@ WHERE artist_is IS NOT NULL
 #time
 time_table_insert = ("""
 INSERT INTO time(start_time, hour, day, week, year, weekday)
-SELECT  start_time,
+SELECT  DISTINCT(start_time),
         EXTRACT(hour from start_time) AS hour,
         EXTRACT(day from start_time) AS day,
         EXTRACT(week from start_time) AS week,
